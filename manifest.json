@@ -1,0 +1,12 @@
+{
+  "manifest_version": 2,
+  "name": "Bookmark Folder Search",
+  "version": "0.1.0",
+  "description": "Browse bookmark folders from the address bar. Type: b tools   (or: b tools git)",
+  "permissions": ["bookmarks"],
+  "background": { "scripts": ["background.js"] },
+  "omnibox": { "keyword": "b" },
+  "browser_specific_settings": {
+    "gecko": { "id": "bookmark-folder-search@example.local" }
+  }
+}
