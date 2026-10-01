@@ -154,3 +154,84 @@ browser.omnibox.onInputEntered.addListener((text, disposition) => {
     default: browser.tabs.update({ url: text });
   }
 });
+
+// ---------------------------------------------------------------------------
+// Favicon cache (used by the popup)
+// Icons come from DuckDuckGo's icon service. Only the hostname of a public site is requested,
+// once, then the icon is stored locally. Set ICONS_ENABLED = false to disable all requests.
+// ---------------------------------------------------------------------------
+const ICONS_ENABLED = true;
+const ICON_URL = host => `https://icons.duckduckgo.com/ip3/${host}.ico`;
+const DAY = 86400000;
+const MAX_CONCURRENT_FETCHES = 6;
+
+const iconCache = new Map();            // host -> { d: dataURL | null, t: timestamp }
+const iconsReady = browser.storage.local.get(null).then(all => {
+  for (const [k, v] of Object.entries(all)) if (k.startsWith("icon:")) iconCache.set(k.slice(5), v);
+}).catch(() => {});
+
+// Never send intranet-style names or IP addresses to a third-party service.
+const isPublicHost = h =>
+  /^[a-z0-9-]+(\.[a-z0-9-]+)+$/i.test(h) &&
+  !/^\d+(\.\d+){3}$/.test(h) &&
+  !/\.(local|localhost|internal|lan|home|test|invalid)$/i.test(h);
+
+let activeFetches = 0;
+const fetchQueue = [];
+function limited(fn) {
+  return new Promise((resolve, reject) => { fetchQueue.push({ fn, resolve, reject }); pump(); });
+}
+function pump() {
+  while (activeFetches < MAX_CONCURRENT_FETCHES && fetchQueue.length) {
+    const { fn, resolve, reject } = fetchQueue.shift();
+    activeFetches++;
+    fn().then(resolve, reject).finally(() => { activeFetches--; pump(); });
+  }
+}
+
+async function fetchIcon(host) {
+  try {
+    const res = await fetch(ICON_URL(host), { credentials: "omit" });
+    if (!res.ok) return null;
+    const blob = await res.blob();
+    if (!blob.size || blob.size > 100000 || blob.type.startsWith("text/")) return null;
+    return await new Promise((ok, no) => {
+      const r = new FileReader();
+      r.onload = () => ok(r.result);
+      r.onerror = no;
+      r.readAsDataURL(blob);
+    });
+  } catch {
+    return null;
+  }
+}
+
+const inflight = new Map();
+function refetch(host) {
+  if (!inflight.has(host)) {
+    inflight.set(host, limited(() => fetchIcon(host)).then(d => {
+      const old = iconCache.get(host);
+      const entry = { d: d || (old && old.d) || null, t: Date.now() };
+      iconCache.set(host, entry);
+      browser.storage.local.set({ ["icon:" + host]: entry }).catch(() => {});
+      return entry.d;
+    }).finally(() => inflight.delete(host)));
+  }
+  return inflight.get(host);
+}
+
+async function getIcon(host) {
+  await iconsReady;
+  const e = iconCache.get(host);
+  // Found icons are refreshed monthly, misses retried weekly. Stale icons are still served instantly.
+  if (e && Date.now() - e.t < (e.d ? 30 * DAY : 7 * DAY)) return e.d;
+  const pending = refetch(host);
+  return e && e.d ? e.d : pending;
+}
+
+browser.runtime.onMessage.addListener(msg => {
+  if (msg && msg.type === "icon" && typeof msg.host === "string") {
+    if (!ICONS_ENABLED || !isPublicHost(msg.host)) return Promise.resolve(null);
+    return getIcon(msg.host);
+  }
+});

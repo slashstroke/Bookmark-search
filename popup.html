@@ -3,14 +3,18 @@
 <head>
 <meta charset="utf-8">
 <style>
-  :root { color-scheme: light dark; --bg:#fff; --fg:#15141a; --muted:#5b5b66; --sel:#e0e0e6; --line:#d7d7db; --badge:#e9e9ee; }
+  :root { color-scheme: light dark; --bg:#fff; --fg:#15141a; --muted:#5b5b66; --sel:#e0e0e6; --line:#d7d7db; --badge:#e9e9ee; --ok:#058b00; --warn:#a47f00; --err:#d70022; }
   @media (prefers-color-scheme: dark) {
-    :root { --bg:#2b2a33; --fg:#fbfbfe; --muted:#b0b0bd; --sel:#4a4a55; --line:#52525e; --badge:#3d3c47; }
+    :root { --bg:#2b2a33; --fg:#fbfbfe; --muted:#b0b0bd; --sel:#4a4a55; --line:#52525e; --badge:#3d3c47; --ok:#54ffbd; --warn:#ffd567; --err:#ff6a75; }
   }
   body { margin:0; width:540px; background:var(--bg); color:var(--fg); font:13px system-ui, sans-serif; }
   #q { box-sizing:border-box; width:100%; padding:10px 12px; border:0; border-bottom:1px solid var(--line);
        background:transparent; color:inherit; font:inherit; font-size:14px; outline:none; }
-  #crumb { padding:6px 12px; color:var(--muted); font-size:12px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  #bar { display:flex; align-items:center; justify-content:space-between; gap:8px; padding:5px 12px; min-height:22px; }
+  #crumb { flex:1; min-width:0; color:var(--muted); font-size:12px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  #save { flex:0 1 auto; max-width:62%; padding:2px 8px; border:0; border-radius:4px; background:var(--badge); color:var(--fg);
+          font:inherit; font-size:11px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; cursor:pointer; }
+  #save[hidden] { display:none; }
   #list { list-style:none; margin:0; padding:0 4px; max-height:380px; overflow-y:auto; }
   #list li { display:flex; align-items:center; gap:10px; padding:6px 8px; border-radius:6px; cursor:default; }
   #list li.sel { background:var(--sel); }
@@ -23,16 +27,18 @@
   .sub { color:var(--muted); font-size:11px; }
   .where { flex:0 1 150px; color:var(--muted); font-size:11px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; direction:rtl; text-align:right; }
   .empty { color:var(--muted); padding:14px 8px !important; }
-  #status { padding:0 12px; color:#d70022; font-size:11px; min-height:0; }
-  #hint { padding:6px 12px; border-top:1px solid var(--line); color:var(--muted); font-size:11px; }
+  #status { padding:4px 12px; font-size:11px; }
+  #status:empty { display:none; }
+  #status.err { color:var(--err); } #status.ok { color:var(--ok); } #status.warn { color:var(--warn); }
+  #hint { padding:6px 12px; border-top:1px solid var(--line); color:var(--muted); font-size:11px; line-height:1.5; }
 </style>
 </head>
 <body>
   <input id="q" type="text" autofocus placeholder="Folder, or folder/sub/ to go deeper. Words filter." autocomplete="off" spellcheck="false">
-  <div id="crumb"></div>
+  <div id="bar"><span id="crumb"></span><button id="save" type="button" hidden></button></div>
   <ul id="list"></ul>
   <div id="status"></div>
-  <div id="hint">↑↓ select · Enter open / enter folder · Ctrl+Enter new tab · Shift+Enter background tab · ← up a level</div>
+  <div id="hint">↑↓ select · Enter open / enter folder · Ctrl+Enter new tab · Shift+Enter background tab · Ctrl+Shift+Enter open all in folder · Ctrl+D save this page into the folder · ← up a level</div>
   <script src="popup.js"></script>
 </body>
 </html>
