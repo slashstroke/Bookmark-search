@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Bookmark Folder Search",
   "version": "0.3.0",
-  "description": "Browse bookmark folders by keyboard. Address bar: 'b tools'. Popup: Alt+Shift+B.",
+  "description": "Browse bookmark folders by keyboard. Address bar: 'b tools'. Popup: Alt+Shift+K.",
   "permissions": ["bookmarks"],
   "background": { "scripts": ["background.js"] },
   "omnibox": { "keyword": "b" },
@@ -13,7 +13,7 @@
   },
   "commands": {
     "_execute_browser_action": {
-      "suggested_key": { "default": "Alt+Shift+B" },
+      "suggested_key": { "default": "Alt+Shift+K" },
       "description": "Open bookmark folder search"
     }
   },

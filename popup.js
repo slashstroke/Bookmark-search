@@ -247,5 +247,11 @@ document.addEventListener("keydown", e => {
   }
 });
 
-load().then(render);
-$q.focus();
+// Firefox popups don't always hand focus to the input right away, so ask several times.
+const focusInput = () => { $q.focus(); $q.select(); };
+load().then(() => { render(); focusInput(); });
+focusInput();
+document.addEventListener("DOMContentLoaded", focusInput);
+window.addEventListener("load", focusInput);
+setTimeout(focusInput, 30);
+setTimeout(focusInput, 120);
