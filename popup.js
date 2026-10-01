@@ -73,7 +73,19 @@ function compute(raw) {
   const text = raw.replace(/^\/+/, "");
   const rootFolders = () => (root.children || []).filter(isFolder).map(c => folderItem(c, ""));
 
-  if (!text.trim()) return { crumb: "All bookmarks", items: rootFolders() };
+  if (!text.trim()) {
+    // Default view: the bookmarks toolbar in its own order, then the other top-level folders.
+    const top = root.children || [];
+    const bar = top.find(c => c.id === "toolbar_____") || top.find(isFolder);
+    if (!bar) return { crumb: "All bookmarks", items: rootFolders() };
+    const barItems = (bar.children || [])
+      .map(c => c.url ? bookmarkItem({ title: c.title || c.url, url: c.url, rel: "" })
+                      : isFolder(c) ? folderItem(c, bar.title) : null)
+      .filter(Boolean);
+    const others = top.filter(c => isFolder(c) && c !== bar && (c.children || []).length)
+      .map(c => folderItem(c, ""));
+    return { crumb: bar.title + "/", items: [...barItems, ...others] };
+  }
 
   if (!text.includes("/")) {
     const terms = termsOf(text);
