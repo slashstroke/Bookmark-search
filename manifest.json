@@ -1,29 +1,33 @@
 {
   "manifest_version": 2,
-  "name": "Bookmark Folder Search",
-  "version": "0.4.0",
-  "description": "Browse bookmark folders by keyboard. Address bar: 'b tools'. Popup: Ctrl+Shift+F.",
-  "permissions": [
-    "bookmarks",
-    "storage",
-    "unlimitedStorage",
-    "activeTab",
-    "https://icons.duckduckgo.com/*"
-  ],
+  "name": "Bookmark Search",
+  "version": "1.0.0",
+  "description": "Browse and search your bookmark folders from the keyboard, like a file explorer.",
+  "icons": { "48": "icon.svg", "96": "icon.svg" },
+  "permissions": ["bookmarks", "storage", "activeTab"],
+  "optional_permissions": ["https://icons.duckduckgo.com/*"],
   "background": { "scripts": ["background.js"] },
   "omnibox": { "keyword": "b" },
   "browser_action": {
-    "default_title": "Bookmark folder search",
+    "default_title": "Bookmark Search",
     "default_popup": "popup.html",
     "default_icon": "icon.svg"
   },
+  "options_ui": { "page": "options.html" },
   "commands": {
     "_execute_browser_action": {
       "suggested_key": { "default": "Ctrl+Shift+F" },
-      "description": "Open bookmark folder search"
+      "description": "Open Bookmark Search"
     }
   },
   "browser_specific_settings": {
-    "gecko": { "id": "bookmark-folder-search@example.local" }
+    "gecko": {
+      "id": "bookmark-search@silentraccoon",
+      "strict_min_version": "140.0",
+      "data_collection_permissions": {
+        "required": ["none"],
+        "optional": ["bookmarksInfo"]
+      }
+    }
   }
 }

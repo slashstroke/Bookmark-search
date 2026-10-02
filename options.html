@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Bookmark Search</title>
+<style>
+  :root { color-scheme: light dark; }
+  body { font: 14px system-ui, sans-serif; max-width: 560px; margin: 24px; line-height: 1.5; }
+  h1 { font-size: 18px; margin: 0 0 16px; }
+  label { display: flex; gap: 8px; align-items: center; font-weight: 600; }
+  p { margin: 8px 0 16px; opacity: .8; }
+  button { font: inherit; padding: 4px 12px; }
+  #msg { min-height: 1.5em; margin-top: 8px; }
+</style>
+</head>
+<body>
+  <h1>Bookmark Search</h1>
+  <label><input type="checkbox" id="icons"> Show website icons</label>
+  <p>Off by default. When on, the hostname of each bookmarked site (for example github.com) is sent once to
+     DuckDuckGo's icon service to download its icon, which is then saved on this device. Nothing else is sent,
+     and local or private addresses are never sent. You can also withdraw this in about:addons under
+     Permissions and data.</p>
+  <button id="clear" type="button">Clear saved icons</button>
+  <div id="msg"></div>
+  <p>Open the popup with Ctrl+Shift+F, or type <b>b</b> and a space in the address bar. You can change the shortcut in
+     about:addons (gear icon, then Manage Extension Shortcuts).</p>
+  <script src="options.js"></script>
+</body>
+</html>
