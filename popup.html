@@ -12,9 +12,6 @@
        background:transparent; color:inherit; font:inherit; font-size:14px; outline:none; }
   #bar { display:flex; align-items:center; justify-content:space-between; gap:8px; padding:5px 12px; min-height:22px; }
   #crumb { flex:1; min-width:0; color:var(--muted); font-size:12px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-  #save { flex:0 1 auto; max-width:62%; padding:2px 8px; border:0; border-radius:4px; background:var(--badge); color:var(--fg);
-          font:inherit; font-size:11px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; cursor:pointer; }
-  #save[hidden] { display:none; }
   #list { list-style:none; margin:0; padding:0 4px; max-height:380px; overflow-y:auto; }
   #list li { display:flex; align-items:center; gap:10px; padding:6px 8px; border-radius:6px; cursor:default; }
   #list li.sel { background:var(--sel); }
@@ -30,15 +27,13 @@
   #status { padding:4px 12px; font-size:11px; }
   #status:empty { display:none; }
   #status.err { color:var(--err); } #status.ok { color:var(--ok); } #status.warn { color:var(--warn); }
-  #hint { padding:6px 12px; border-top:1px solid var(--line); color:var(--muted); font-size:11px; line-height:1.5; }
 </style>
 </head>
 <body>
   <input id="q" type="text" autofocus placeholder="Folder, or folder/sub/ to go deeper. Words filter." autocomplete="off" spellcheck="false">
-  <div id="bar"><span id="crumb"></span><button id="save" type="button" hidden></button></div>
+  <div id="bar"><span id="crumb"></span></div>
   <ul id="list"></ul>
   <div id="status"></div>
-  <div id="hint">↑↓ select · Enter open / enter folder · Ctrl+Enter new tab · Shift+Enter background tab · Ctrl+Shift+Enter open all in folder · Ctrl+D save this page into the folder · ← up a level</div>
   <script src="popup.js"></script>
 </body>
 </html>

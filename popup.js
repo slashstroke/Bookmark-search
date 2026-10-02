@@ -5,7 +5,7 @@
 //   Bookmarks Toolbar/Tools/sub/   -> go deeper (spaces are fine once a "/" is used)
 //   tools/ git              -> words after the last "/" search inside that folder, recursively
 // Ctrl+Shift+Enter opens every bookmark in the highlighted folder; Ctrl+D saves the current page
-// into the folder you're viewing (or the highlighted folder row).
+// into the folder you're viewing (or the highlighted folder row) and reports it in the status line.
 
 const MAX_ROWS = 100;
 const OPEN_ALL_CONFIRM_ABOVE = 10;
@@ -13,7 +13,6 @@ const DAY = 86400000;
 
 const $q = document.getElementById("q");
 const $crumb = document.getElementById("crumb");
-const $save = document.getElementById("save");
 const $list = document.getElementById("list");
 const $status = document.getElementById("status");
 
@@ -300,12 +299,6 @@ function currentTarget() {
 function paint(scroll = true) {
   [...$list.children].forEach((li, i) => li.classList.toggle("sel", i === sel));
   if (scroll) $list.children[sel]?.scrollIntoView({ block: "nearest" });
-  const t = currentTarget();
-  $save.hidden = !t;
-  if (t) {
-    $save.textContent = `+ Save page to “${t.path}”  Ctrl+D`;
-    $save.title = `Bookmark the current page in ${t.path}`;
-  }
 }
 
 function setStatus(msg, kind = "err") {
@@ -416,8 +409,6 @@ async function saveCurrent() {
 const atEnd = () => $q.selectionStart === $q.value.length && $q.selectionEnd === $q.value.length;
 
 $q.addEventListener("input", render);
-$save.addEventListener("mousedown", e => e.preventDefault());   // keep typing focus
-$save.addEventListener("click", saveCurrent);
 
 document.addEventListener("keydown", e => {
   const mod = e.ctrlKey || e.metaKey;
