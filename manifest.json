@@ -3,20 +3,41 @@
   "name": "Bookmark Search",
   "version": "1.0.0",
   "description": "Browse and search your bookmark folders from the keyboard, like a file explorer.",
-  "icons": { "48": "icon.svg", "96": "icon.svg" },
-  "permissions": ["bookmarks", "storage", "activeTab"],
-  "optional_permissions": ["https://icons.duckduckgo.com/*"],
-  "background": { "scripts": ["background.js"] },
-  "omnibox": { "keyword": "b" },
+  "icons": {
+    "48": "icon.svg",
+    "96": "icon.svg"
+  },
+  "permissions": [
+    "bookmarks",
+    "storage",
+    "activeTab"
+  ],
+  "optional_permissions": [
+    "https://icons.duckduckgo.com/*"
+  ],
+  "background": {
+    "scripts": [
+      "search.js",
+      "background.js"
+    ]
+  },
+  "omnibox": {
+    "keyword": "b"
+  },
   "browser_action": {
     "default_title": "Bookmark Search",
     "default_popup": "popup.html",
     "default_icon": "icon.svg"
   },
-  "options_ui": { "page": "options.html" },
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
+  },
   "commands": {
     "_execute_browser_action": {
-      "suggested_key": { "default": "Ctrl+Shift+F" },
+      "suggested_key": {
+        "default": "Ctrl+Shift+F"
+      },
       "description": "Open Bookmark Search"
     }
   },
@@ -25,8 +46,12 @@
       "id": "bookmark-search@silentraccoon",
       "strict_min_version": "140.0",
       "data_collection_permissions": {
-        "required": ["none"],
-        "optional": ["bookmarksInfo"]
+        "required": [
+          "none"
+        ],
+        "optional": [
+          "bookmarksInfo"
+        ]
       }
     }
   }

@@ -44,3 +44,7 @@ $clear.addEventListener("click", async () => {
 browser.permissions.onAdded.addListener(refresh);
 browser.permissions.onRemoved.addListener(refresh);
 refresh();
+
+if (new URLSearchParams(location.search).has("welcome")) {
+  document.getElementById("welcome").classList.add("show");
+}

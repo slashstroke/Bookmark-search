@@ -5,16 +5,28 @@
 <title>Bookmark Search</title>
 <style>
   :root { color-scheme: light dark; }
-  body { font: 14px system-ui, sans-serif; max-width: 560px; margin: 24px; line-height: 1.5; }
-  h1 { font-size: 18px; margin: 0 0 16px; }
+  body { font: 14px system-ui, sans-serif; max-width: 600px; margin: 24px auto; padding: 0 16px; line-height: 1.5; }
+  h1 { font-size: 20px; margin: 0 0 12px; }
+  h2 { font-size: 15px; margin: 24px 0 6px; }
+  #welcome { display: none; margin: 0 0 16px; padding: 12px 14px; border-radius: 8px; border: 1px solid #8884; background: #8881; }
+  #welcome.show { display: block; }
   label { display: flex; gap: 8px; align-items: center; font-weight: 600; }
-  p { margin: 8px 0 16px; opacity: .8; }
+  p { margin: 8px 0 14px; opacity: .85; }
+  ul { margin: 6px 0; padding-left: 20px; }
+  li { margin: 3px 0; }
+  kbd { font: inherit; font-size: 12px; padding: 1px 5px; border: 1px solid #8886; border-radius: 4px; background: #8882; }
   button { font: inherit; padding: 4px 12px; }
   #msg { min-height: 1.5em; margin-top: 8px; }
 </style>
 </head>
 <body>
   <h1>Bookmark Search</h1>
+  <div id="welcome">
+    <b>Thanks for installing!</b> Press <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>F</kbd> to open it.
+    One optional setting is below: website icons are off until you turn them on.
+  </div>
+
+  <h2>Website icons</h2>
   <label><input type="checkbox" id="icons"> Show website icons</label>
   <p>Off by default. When on, the hostname of each bookmarked site (for example github.com) is sent once to
      DuckDuckGo's icon service to download its icon, which is then saved on this device. Nothing else is sent,
@@ -22,8 +34,16 @@
      Permissions and data.</p>
   <button id="clear" type="button">Clear saved icons</button>
   <div id="msg"></div>
-  <p>Open the popup with Ctrl+Shift+F, or type <b>b</b> and a space in the address bar. You can change the shortcut in
-     about:addons (gear icon, then Manage Extension Shortcuts).</p>
+
+  <h2>How to use</h2>
+  <ul>
+    <li>Press <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>F</kbd> (change it in about:addons: gear icon, then Manage Extension Shortcuts).</li>
+    <li>Type words to search everything. Fuzzy matching works: <b>ggl</b> finds Google.</li>
+    <li>Type a folder name and <b>/</b> to open it, like <b>tools/</b> or <b>tools/dev/</b>. Words after the last / search inside it.</li>
+    <li><kbd>Enter</kbd> opens a bookmark or enters a folder. <kbd>Ctrl</kbd>+<kbd>Enter</kbd> new tab, <kbd>Shift</kbd>+<kbd>Enter</kbd> background tab.</li>
+    <li><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>Enter</kbd> on a folder opens everything in it. <kbd>Ctrl</kbd>+<kbd>D</kbd> saves the current page into the folder.</li>
+    <li><kbd>←</kbd> goes up a level. In the address bar, type <b>b</b>, a space, then the same kind of text.</li>
+  </ul>
   <script src="options.js"></script>
 </body>
 </html>
