@@ -1,0 +1,16 @@
+# Build output
+web-ext-artifacts/
+dist/
+*.zip
+*.xpi
+ 
+# Node
+node_modules/
+npm-debug.log*
+ 
+# OS and editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
