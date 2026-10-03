@@ -17,12 +17,8 @@
   ],
   "background": {
     "scripts": [
-      "search.js",
       "background.js"
     ]
-  },
-  "omnibox": {
-    "keyword": "b"
   },
   "browser_action": {
     "default_title": "Bookmark Search",

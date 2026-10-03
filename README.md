@@ -16,7 +16,6 @@ through the bookmarks menu.
 - **Frequently opened items rise to the top** of search results.
 - **Open all.** Open every bookmark in a folder as tabs, with confirmation above 10.
 - **Save the current page** into any folder by path.
-- **Address bar too.** Type `b` and a space, then words or a folder path (`b ggl`, `b tools/dev/`). Same ranking as the panel.
 - **Optional website icons,** off by default (see Privacy).
 
 ## Keyboard
@@ -62,9 +61,9 @@ npx web-ext lint
 npx web-ext build
 ```
 
-Files: `manifest.json`, `search.js` (search and ranking, shared), `background.js` (address-bar keyword, icon
-cache, first-run page), `popup.html` / `popup.js` (the panel), `options.html` / `options.js` (settings and
-how-to), `icon.svg`.
+Files: `manifest.json`, `search.js` (search and ranking), `popup.html` / `popup.js` (the panel),
+`background.js` (icon cache, first-run page), `options.html` / `options.js` (settings and how-to), `icon.svg`.
+`archive/` holds code that is not shipped.
 
 Chrome and other Chromium browsers are not supported yet.
 

@@ -1,5 +1,6 @@
-// Background script. search.js is loaded first (see manifest) and provides buildIndex, compute, rank,
-// recordUse, loadUsage and the shared state.
+// Background script: first-run page and the optional website-icon cache for the popup.
+
+const DAY = 86400000;
 
 // ---------------------------------------------------------------------------
 // First run: open the options page once so people can find the optional icon setting
@@ -12,52 +13,6 @@ browser.runtime.onInstalled.addListener(async details => {
     await browser.storage.local.set({ welcomed: true });
     await browser.tabs.create({ url: browser.runtime.getURL("options.html?welcome=1") });
   } catch {}
-});
-
-// ---------------------------------------------------------------------------
-// Address bar: type "b <words>" or "b folder/sub/" (same ranking as the popup)
-// ---------------------------------------------------------------------------
-const OMNIBOX_MAX = 8;
-let indexPromise = null;
-
-function ensureIndex() {
-  if (!indexPromise) indexPromise = browser.bookmarks.getTree().then(([tree]) => buildIndex(tree));
-  return indexPromise;
-}
-for (const ev of ["onCreated", "onRemoved", "onChanged", "onMoved"]) {
-  browser.bookmarks[ev].addListener(() => { indexPromise = null; });
-}
-
-browser.omnibox.setDefaultSuggestion({
-  description: "Bookmark Search: type words, or a folder path like tools/dev/"
-});
-
-browser.omnibox.onInputChanged.addListener(async (text, suggest) => {
-  if (!text.trim()) return;
-  await ensureIndex();
-  await loadUsage();
-  const r = compute(text);
-  suggest(r.items.slice(0, OMNIBOX_MAX).map(it => {
-    if (it.type === "folder") {
-      return { content: it.path + "/", description: `📁 ${it.path}/  (${it.count} items)` };
-    }
-    const parent = it.where ? it.where.split("/").pop() + "/" : "";
-    return { content: it.url, description: `${parent}${it.title} - ${it.url}` };
-  }));
-});
-
-browser.omnibox.onInputEntered.addListener(async (text, disposition) => {
-  // Folder suggestions end in "/" and aren't URLs, so Enter on them does nothing.
-  if (!/^(https?|ftp|file|about):/i.test(text)) return;
-  try {
-    await ensureIndex();
-    if (bookmarkPool.some(b => b.url === text)) recordUse({ type: "bookmark", url: text });
-  } catch {}
-  switch (disposition) {
-    case "newForegroundTab": browser.tabs.create({ url: text }); break;
-    case "newBackgroundTab": browser.tabs.create({ url: text, active: false }); break;
-    default: browser.tabs.update({ url: text });
-  }
 });
 
 // ---------------------------------------------------------------------------

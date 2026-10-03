@@ -1,6 +1,6 @@
-// Popup UI for Bookmark Search. The search/navigation logic lives in search.js (shared with the
-// address-bar mode). Ctrl+Shift+Enter opens every bookmark in the highlighted folder; Ctrl+D saves the
-// current page into the folder you're viewing (or the highlighted folder row).
+// Popup UI for Bookmark Search. The search/navigation logic lives in search.js. Ctrl+Shift+Enter opens
+// every bookmark in the highlighted folder; Ctrl+D saves the current page into the folder you're viewing
+// (or the highlighted folder row).
 
 const MAX_ROWS = 100;
 const OPEN_ALL_CONFIRM_ABOVE = 10;

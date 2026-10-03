@@ -1,4 +1,4 @@
-// Shared search logic, loaded before popup.js (popup) and background.js (address-bar mode).
+// Search and navigation logic for the popup (loaded before popup.js).
 //   (empty)                 -> the bookmarks toolbar, then the other top-level folders
 //   tools                   -> fuzzy search over folders and bookmarks (all words must match)
 //   tools/                  -> contents of folder "tools"
@@ -199,8 +199,8 @@ function compute(raw) {
   return { crumb: base + "/", items: [...subs, ...marks], folder };
 }
 
-// Count an open/enter so frequently used items rank higher. Re-reads storage first so the popup
-// and the address-bar mode don't overwrite each other's counts.
+// Count an open/enter so frequently used items rank higher. Re-reads storage first so a stale copy
+// never overwrites newer counts.
 async function recordUse(item) {
   const k = usageKey(item);
   try {
