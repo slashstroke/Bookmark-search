@@ -56,14 +56,14 @@ Requires Firefox 140 or newer (desktop).
 # run it
 about:debugging#/runtime/this-firefox  ->  Load Temporary Add-on  ->  select manifest.json
 
-# check and package
+# check and package (web-ext-config.cjs leaves out the docs and archive/)
 npx web-ext lint
 npx web-ext build
 ```
 
 Files: `manifest.json`, `search.js` (search and ranking), `popup.html` / `popup.js` (the panel),
 `background.js` (icon cache, first-run page), `options.html` / `options.js` (settings and how-to), `icon.svg`.
-`archive/` holds code that is not shipped.
+`archive/` holds code that is not shipped. `web-ext-config.cjs` controls what goes into the package.
 
 Chrome and other Chromium browsers are not supported yet.
 

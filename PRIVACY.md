@@ -43,4 +43,4 @@ remote code, and no data is used for anything other than the features described 
 ## Contact
 
 Questions or concerns: please open an issue at
-https://github.com/<your-username>/bookmark-search/issues
+https://github.com/slashstroke/Bookmark-search/issues
