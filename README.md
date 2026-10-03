@@ -11,7 +11,7 @@ through the bookmarks menu.
 
 - **Folder paths.** `tools/` shows the folder, `tools/dev/` goes deeper. Words after the last `/` search inside
   that folder, including its subfolders.
-- **Fuzzy search.** Type `hkr` to find HackerRank. Folders and bookmarks are searched together.
+- **Fuzzy search.** Type `ggl` to find Google. Folders and bookmarks are searched together.
 - **Starts on your bookmarks toolbar,** in the same order as the bar itself.
 - **Frequently opened items rise to the top** of search results.
 - **Open all.** Open every bookmark in a folder as tabs, with confirmation above 10.
