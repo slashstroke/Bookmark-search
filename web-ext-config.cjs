@@ -6,6 +6,7 @@ module.exports = {
   ignoreFiles: [
     "web-ext-config.cjs",
     "archive",
+    "assets",
     "docs",
     "store",
     "amo-listing.md",
