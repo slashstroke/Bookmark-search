@@ -5,7 +5,7 @@ Browse and search your bookmark folders from the keyboard, like a file explorer.
 Press **Ctrl+Shift+F**, type a folder path such as `tools/dev/`, and see what is inside. No mouse, no digging
 through the bookmarks menu.
 
-> Firefox Add-ons listing: _link coming soon_
+> Firefox Add-ons listing: https://addons.mozilla.org/en-US/firefox/addon/bookmark-search-silentracoon/
 
 ## Features
 
